@@ -49,6 +49,8 @@ const transacoes = [
   { conta_id: nubank, categoria_id: categorias.mercado, descricao: "Supermercado Extra", valor: -340.5, data: "2026-09-08", pendente: 0 },
   { conta_id: nubank, categoria_id: categorias.transporte, descricao: "Uber", valor: -28.9, data: "2026-09-10", pendente: 0 },
   { conta_id: nubank, categoria_id: categorias.lazer, descricao: "Cinema", valor: -45, data: "2026-09-12", pendente: 0 },
+  // Nubank — sem categoria: exercita o agrupamento "Sem categoria" de gastos_por_categoria.
+  { conta_id: nubank, categoria_id: null, descricao: "Transferência avulsa", valor: -60, data: "2026-09-13", pendente: 0 },
   // Nubank — pendente: não deve entrar no saldo atual de get_saldo.
   { conta_id: nubank, categoria_id: categorias.moradia, descricao: "IPTU (parcela)", valor: -80, data: "2026-09-25", pendente: 1 },
 
