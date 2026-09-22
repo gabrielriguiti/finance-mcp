@@ -49,7 +49,7 @@ commit, como pede a regra de "uma proposal por tool".
   conta sem transação pendente vs. com pendente] → seed.ts inclui pelo
   menos uma conta com transação pendente e uma sem, cobrindo os cenários
   do spec.
-- [Cálculo de saldo em JavaScript, iterando transações, não em SQL] →
-  aceitável para o volume de dados fictícios; se o dataset crescer nas
-  próximas tools, reavaliar com `SUM()` no SQL (fica no backlog, não
-  bloqueia esta tool).
+- [Cálculo de saldo feito via `SUM()`/`GROUP BY` no SQL, não iterando
+  transações em JavaScript] → mais simples e correto que agregar em JS;
+  decisão tomada na implementação (não havia motivo real para preferir
+  JS) e mantida aqui para registro.
