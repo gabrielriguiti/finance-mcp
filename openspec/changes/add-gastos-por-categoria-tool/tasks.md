@@ -8,4 +8,4 @@
 ## 2. Validação manual e documentação
 
 - [ ] 2.1 Validar `gastos_por_categoria` no Claude Desktop (já configurado via `claude_desktop_config.json`): período com gastos, período sem gastos, filtro por conta, e conta inexistente.
-- [ ] 2.2 Atualizar `README.md` (tabela de tools: marcar `gastos_por_categoria` como implementada) e `ARCHITECTURE.md` (racional da assinatura da tool, especialmente o formato de período escolhido e o agrupamento "Sem categoria") com o que foi entregue.
+- [x] 2.2 Atualizar `README.md` (tabela de tools: marcar `gastos_por_categoria` como implementada) e `ARCHITECTURE.md` (racional da assinatura da tool, especialmente o formato de período escolhido e o agrupamento "Sem categoria") com o que foi entregue.

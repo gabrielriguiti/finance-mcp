@@ -62,6 +62,22 @@ Servidor único, transporte stdio, sem estado além do arquivo SQLite local.
 - Retorno compacto: `{ nome, saldo }` para uma conta, `{ contas: [...] }`
   para a lista de todas.
 
+### gastos_por_categoria — racional da assinatura
+- "Período" é `data_inicio` + `data_fim` (formato `YYYY-MM-DD`, ambos
+  inclusive) em vez de mês/ano — mais flexível (permite recortes fora de
+  mês calendário) e sem ambiguidade de fuso ou de "mês corrente".
+  Alternativa considerada: `{ mes, ano }` — descartada por ser menos
+  flexível sem ganho real de clareza para o modelo.
+- Mesma convenção de `conta` opcional de `get_saldo` (nome exato; ausência
+  agrega todas as contas), incluindo o mesmo formato de erro estruturado
+  para conta inexistente.
+- Total por categoria = soma do valor absoluto de transações com
+  `valor < 0` e `pendente = 0`, via `SUM()`/`GROUP BY`/`LEFT JOIN` no SQL,
+  seguindo o mesmo padrão de `get_saldo`.
+- Transações sem `categoria_id` são agrupadas como `"Sem categoria"`
+  (`COALESCE` no SQL) em vez de descartadas — omitir gastos reais do total
+  seria pior que um grupo "sem categoria" explícito.
+
 ## O que foi cortado de escopo
 
 - Autenticação, deploy, API real, escrita de dados — ver README.

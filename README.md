@@ -43,7 +43,7 @@ em `dist/index.js` (`npm run build && npm start`).
 | Tool | Entrada | Retorno | Status |
 |---|---|---|---|
 | `get_saldo` | conta (opcional) | saldo atual por conta | ✅ implementada |
-| `gastos_por_categoria` | período, conta (opcional) | totais agregados | planejada |
+| `gastos_por_categoria` | período, conta (opcional) | totais agregados | ✅ implementada |
 | `contas_a_pagar` | janela de dias | pendências com vencimento | planejada |
 | `buscar_transacoes` | texto, período, faixa de valor | lista paginada | planejada |
 | `resumo_fatura` | cartão, mês de referência | fechamento, vencimento, total | planejada |
@@ -52,6 +52,12 @@ em `dist/index.js` (`npm run build && npm start`).
 retorna o saldo de todas as contas cadastradas. O saldo é `saldo_inicial`
 mais a soma das transações não pendentes da conta — transações pendentes
 (contas a pagar em aberto) não entram no cálculo.
+
+`gastos_por_categoria` recebe `data_inicio` e `data_fim` (formato
+`YYYY-MM-DD`, ambos inclusive) e um `conta` opcional. Retorna o total
+gasto em cada categoria no período — só gastos efetivados (valor
+negativo, não pendentes) entram na soma; receitas e pendências ficam de
+fora. Gastos sem categoria aparecem agrupados como "Sem categoria".
 
 ## O que ficou de fora (e por quê)
 
