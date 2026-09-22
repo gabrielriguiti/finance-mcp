@@ -1,9 +1,9 @@
 // finance-mcp — servidor MCP de finanças pessoais sobre SQLite.
 //
-// Estado: get_saldo implementada. As outras 4 tools (gastos_por_categoria,
-// contas_a_pagar, buscar_transacoes, resumo_fatura) ainda não foram
-// implementadas — ver ARCHITECTURE.md e backlog.md para o que está fora
-// de escopo.
+// Estado: get_saldo e gastos_por_categoria implementadas. As outras 3
+// tools (contas_a_pagar, buscar_transacoes, resumo_fatura) ainda não
+// foram implementadas — ver ARCHITECTURE.md e backlog.md para o que
+// está fora de escopo.
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -12,6 +12,10 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { getSaldoTool, handleGetSaldo } from "./tools/get-saldo.js";
+import {
+  gastosPorCategoriaTool,
+  handleGastosPorCategoria,
+} from "./tools/gastos-por-categoria.js";
 
 const server = new Server(
   {
@@ -26,13 +30,15 @@ const server = new Server(
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [getSaldoTool],
+  tools: [getSaldoTool, gastosPorCategoriaTool],
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
   switch (request.params.name) {
     case "get_saldo":
       return handleGetSaldo(request.params.arguments);
+    case "gastos_por_categoria":
+      return handleGastosPorCategoria(request.params.arguments);
     default:
       throw new Error(`Tool desconhecida: ${request.params.name}`);
   }
@@ -41,7 +47,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("finance-mcp rodando via stdio (tools: get_saldo)");
+  console.error(
+    "finance-mcp rodando via stdio (tools: get_saldo, gastos_por_categoria)"
+  );
 }
 
 main().catch((err) => {

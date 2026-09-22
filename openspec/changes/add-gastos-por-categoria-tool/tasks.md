@@ -3,7 +3,7 @@
 - [x] 1.1 Criar `src/tools/gastos-por-categoria.ts` com schema zod (`data_inicio`, `data_fim` obrigatórios no formato `YYYY-MM-DD`; `conta` opcional) e handler que consulta `transacoes` via `LEFT JOIN categorias` filtrando `valor < 0`, `pendente = 0` e `data BETWEEN data_inicio AND data_fim`, agrupando por categoria (usando `COALESCE(categorias.nome, 'Sem categoria')`). Verificar com uma chamada direta do handler cobrindo: período com gastos em múltiplas categorias, período sem gastos, e transação sem categoria.
 - [x] 1.2 Implementar filtro opcional por `conta`, reaproveitando a mesma checagem de conta existente usada em `get_saldo` (retorno `isError: true` para conta inexistente). Verificar chamando o handler com conta existente, sem conta, e com conta inexistente.
 - [x] 1.3 Verificar que transações pendentes e receitas (`valor > 0`) não entram nos totais — chamando o handler sobre um período do seed que contenha ambos os casos e conferindo que não aparecem na soma.
-- [ ] 1.4 Registrar `gastos_por_categoria` em `src/index.ts` (`ListToolsRequestSchema` e `CallToolRequestSchema`) com descrição explícita do formato de data, do parâmetro `conta` opcional, e de que o total é só de gastos. Verificar que `npm run dev` sobe sem erro e que a tool aparece na listagem MCP.
+- [x] 1.4 Registrar `gastos_por_categoria` em `src/index.ts` (`ListToolsRequestSchema` e `CallToolRequestSchema`) com descrição explícita do formato de data, do parâmetro `conta` opcional, e de que o total é só de gastos. Verificar que `npm run dev` sobe sem erro e que a tool aparece na listagem MCP.
 
 ## 2. Validação manual e documentação
 
