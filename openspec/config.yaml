@@ -2,31 +2,43 @@ schema: spec-driven
 
 # Project context (optional)
 # This is shown to AI when creating artifacts.
-# Add your tech stack, conventions, style guides, domain knowledge, etc.
-# Example:
-#   context: |
-#     Tech stack: TypeScript, React, Node.js
-#     We use conventional commits
-#     Domain: e-commerce platform
+context: |
+  Servidor MCP de finanças pessoais sobre SQLite, com seed de dados fictícios.
+  Transporte stdio. TypeScript, SDK MCP oficial.
+
+  Escopo fechado (Fase 1 do plano de portfólio) — cinco tools, nenhuma a mais:
+    - get_saldo(conta?) -> saldo atual por conta
+    - gastos_por_categoria(periodo, conta?) -> totais agregados
+    - contas_a_pagar(janela_dias) -> pendencias com vencimento
+    - buscar_transacoes(texto, periodo, faixa_valor) -> lista paginada
+    - resumo_fatura(cartao, mes_referencia) -> fechamento, vencimento, total
+
+  Fora de escopo, sem discussão: autenticação multi-tenant, deploy, integração
+  com API real, escrita de dados. Ideia nova de escopo vai para o backlog.md
+  na raiz do monorepo de portfólio, nunca vira tarefa aqui.
+
+  Convenção de commits: Conventional Commits (feat:, fix:, docs:, refactor:,
+  test:, chore:), commits pequenos e frequentes.
+
+  Prioridade de design: assinatura de tool clara para o modelo (descrição sem
+  ambiguidade, parâmetros que evitam chamada inútil, retorno compacto).
 
 # Per-artifact rules (optional)
-# Add custom rules for specific artifacts.
-# Example:
-#   rules:
-#     proposal:
-#       - Keep proposals under 500 words
-#       - Always include a "Non-goals" section
-#     tasks:
-#       - Break tasks into chunks of max 2 hours
+rules:
+  proposal:
+    - Cada proposal cobre exatamente uma tool da tabela do escopo fechado
+    - Nunca proponha tool, autenticação, deploy ou escrita fora da lista de cinco tools
+    - Toda ideia fora do escopo vai para o backlog.md, não para a proposal
+  tasks:
+    - Quebrar em tarefas de no máximo 2h
+    - Incluir tarefa de teste da tool antes de marcar como pronta
 
 # Per-operation guidance (optional)
-# Add advisory guidance for how apply and archive work should be conducted.
-# This is separate from artifact rules above.
-# Example:
-#   operations:
-#     apply:
-#       guidance:
-#         - Keep test summaries concise
-#     archive:
-#       guidance:
-#         - Summarize the archive outcome before finishing
+operations:
+  apply:
+    guidance:
+      - Um commit pequeno por tarefa concluída, mensagem no padrão Conventional Commits
+      - Validar a tool no Claude Desktop antes de considerar a task feita
+  archive:
+    guidance:
+      - Ao arquivar, atualizar o README com a tool entregue e, se relevante, o ARCHITECTURE.md com o racional da assinatura escolhida
