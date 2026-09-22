@@ -34,10 +34,33 @@ Servidor único, transporte stdio, sem estado além do arquivo SQLite local.
 - Trade-offs: não escala para múltiplos usuários concorrentes — não é o
   objetivo deste projeto.
 
-### Design das tools (a decidir durante a Fase 1)
-- Cada tool terá: descrição sem ambiguidade para o modelo, parâmetros que
-  evitem chamadas inúteis, retorno compacto. Este arquivo será atualizado
-  com o racional de cada assinatura conforme forem implementadas.
+### Organização do código das tools
+- Uma tool por arquivo em `src/tools/` (ex.: `get-saldo.ts`), exportando a
+  definição (nome, descrição, `inputSchema`) e o handler. `src/index.ts`
+  importa e registra cada uma no `ListToolsRequestSchema` e no
+  `CallToolRequestSchema`.
+- Alternativa considerada: todas as tools em um único arquivo — descartada
+  porque dificultaria revisar/commitar uma tool por vez, como pede o
+  processo (uma proposal OpenSpec por tool).
+- Conexão SQLite: `src/db/connection.ts` abre uma única conexão
+  `better-sqlite3` compartilhada por todas as tools. SQLite local
+  single-user não ganha nada com múltiplas conexões, e uma conexão única
+  simplifica o teste manual.
+
+### get_saldo — racional da assinatura
+- Parâmetro único opcional `conta` (nome exato da conta). Ausência do
+  parâmetro retorna o saldo de todas as contas — evita obrigar o modelo a
+  descobrir nomes de conta antes de poder responder "quanto eu tenho".
+  A descrição da tool deixa esse comportamento explícito para não haver
+  chamada ambígua.
+- Saldo = `saldo_inicial` + soma de `transacoes.valor` com `pendente = 0`,
+  calculado via `SUM()`/`GROUP BY` no SQL (mais simples e correto que
+  agregar em JavaScript).
+- Conta inexistente retorna um resultado MCP de erro (`isError: true`)
+  com mensagem legível, em vez de deixar uma exceção do SQLite subir —
+  mantém o modelo capaz de explicar o problema ao usuário.
+- Retorno compacto: `{ nome, saldo }` para uma conta, `{ contas: [...] }`
+  para a lista de todas.
 
 ## O que foi cortado de escopo
 

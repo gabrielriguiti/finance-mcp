@@ -15,4 +15,4 @@
 ## 4. Validação manual e documentação
 
 - [ ] 4.1 Configurar o servidor no Claude Desktop (`claude_desktop_config.json`) e validar `get_saldo` end-to-end: com conta existente, sem conta, e com conta inexistente.
-- [ ] 4.2 Atualizar `README.md` (seção "Como rodar" e tabela de tools: marcar `get_saldo` como implementada) e `ARCHITECTURE.md` (racional da assinatura da tool e do módulo de conexão) com o que foi entregue.
+- [x] 4.2 Atualizar `README.md` (seção "Como rodar" e tabela de tools: marcar `get_saldo` como implementada) e `ARCHITECTURE.md` (racional da assinatura da tool e do módulo de conexão) com o que foi entregue.

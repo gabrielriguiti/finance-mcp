@@ -21,7 +21,7 @@ documentados em português ainda são raros.
 
 ```bash
 npm install
-npm run seed   # cria finance.db com schema + dados fictícios (TODO)
+npm run seed   # cria finance.db com schema + dados fictícios
 npm run dev    # inicia o servidor via stdio
 ```
 
@@ -38,15 +38,20 @@ em `dist/index.js` (`npm run build && npm start`).
 - **Dados fictícios via seed script**: repositório público não pode
   conter dados financeiros reais de ninguém.
 
-## Tools planejadas (Fase 1 — ainda não implementadas neste commit)
+## Tools (Fase 1)
 
-| Tool | Entrada | Retorno |
-|---|---|---|
-| `get_saldo` | conta (opcional) | saldo atual por conta |
-| `gastos_por_categoria` | período, conta (opcional) | totais agregados |
-| `contas_a_pagar` | janela de dias | pendências com vencimento |
-| `buscar_transacoes` | texto, período, faixa de valor | lista paginada |
-| `resumo_fatura` | cartão, mês de referência | fechamento, vencimento, total |
+| Tool | Entrada | Retorno | Status |
+|---|---|---|---|
+| `get_saldo` | conta (opcional) | saldo atual por conta | ✅ implementada |
+| `gastos_por_categoria` | período, conta (opcional) | totais agregados | planejada |
+| `contas_a_pagar` | janela de dias | pendências com vencimento | planejada |
+| `buscar_transacoes` | texto, período, faixa de valor | lista paginada | planejada |
+| `resumo_fatura` | cartão, mês de referência | fechamento, vencimento, total | planejada |
+
+`get_saldo` aceita um parâmetro opcional `conta` (nome exato). Sem ele,
+retorna o saldo de todas as contas cadastradas. O saldo é `saldo_inicial`
+mais a soma das transações não pendentes da conta — transações pendentes
+(contas a pagar em aberto) não entram no cálculo.
 
 ## O que ficou de fora (e por quê)
 
