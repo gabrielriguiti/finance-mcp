@@ -1,0 +1,68 @@
+# finance-mcp
+
+> Status: em construção (Fase 1 do plano de portfólio). Este README será
+> completado ao longo das duas semanas da fase — ver seção "Como rodar" e
+> "Definição de done" no plano.
+
+## O que é
+
+Um servidor MCP (Model Context Protocol) de finanças pessoais, sobre
+SQLite, com dados fictícios (seed). Expõe 5 tools para consulta financeira
+via qualquer cliente MCP (ex.: Claude Desktop).
+
+## Que problema resolve
+
+Servir de referência pública, bem documentada em português, de como
+desenhar um servidor MCP — em particular, como desenhar assinaturas de
+tools que um modelo consegue usar sem ambiguidade. Servidores MCP bem
+documentados em português ainda são raros.
+
+## Como rodar
+
+```bash
+npm install
+npm run seed   # cria finance.db com schema + dados fictícios (TODO)
+npm run dev    # inicia o servidor via stdio
+```
+
+Configuração no Claude Desktop: adicionar este servidor ao
+`claude_desktop_config.json` apontando para `npm run dev` ou para o build
+em `dist/index.js` (`npm run build && npm start`).
+
+## Decisões técnicas
+
+- **TypeScript + SDK oficial do MCP**: transporte stdio, é o caminho mais
+  direto e mais documentado pelo protocolo.
+- **SQLite (better-sqlite3)**: zero infraestrutura, API síncrona simples,
+  suficiente para um dataset fictício de finanças pessoais.
+- **Dados fictícios via seed script**: repositório público não pode
+  conter dados financeiros reais de ninguém.
+
+## Tools planejadas (Fase 1 — ainda não implementadas neste commit)
+
+| Tool | Entrada | Retorno |
+|---|---|---|
+| `get_saldo` | conta (opcional) | saldo atual por conta |
+| `gastos_por_categoria` | período, conta (opcional) | totais agregados |
+| `contas_a_pagar` | janela de dias | pendências com vencimento |
+| `buscar_transacoes` | texto, período, faixa de valor | lista paginada |
+| `resumo_fatura` | cartão, mês de referência | fechamento, vencimento, total |
+
+## O que ficou de fora (e por quê)
+
+- **Autenticação multi-tenant** — fora de escopo: este é um servidor de
+  demonstração de uso único, não um produto multiusuário.
+- **Deploy** — fora de escopo: o objetivo é rodar localmente via stdio.
+- **Integração com API financeira real** — fora de escopo: dados são
+  fictícios de propósito, para poder ser público.
+- **Escrita de dados** (criar/editar transações) — fora de escopo: as 5
+  tools são somente leitura.
+
+Itens que surgirem além destes vão para o `backlog.md` do portfólio, não
+para este projeto.
+
+---
+
+## Licença
+
+MIT — ver [LICENSE](./LICENSE).
