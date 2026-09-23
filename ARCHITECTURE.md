@@ -100,6 +100,33 @@ Servidor único, transporte stdio, sem estado além do arquivo SQLite local.
 - Resultado ordenado por vencimento crescente e inclui o nome da conta
   (`JOIN contas`), retorno compacto: `{ pendencias: [...] }`.
 
+### buscar_transacoes — racional da assinatura
+- Todos os filtros (`texto`, `data_inicio`/`data_fim`,
+  `valor_min`/`valor_max`) são opcionais e combináveis por E lógico —
+  cada um vira uma cláusula `WHERE` condicional, adicionada só se o
+  parâmetro foi informado. Sem nenhum filtro, retorna todas as
+  transações, mais recentes primeiro.
+- Busca por texto usa `LOWER(descricao) LIKE LOWER(@pattern)` em vez do
+  `LIKE` case-insensitive nativo do SQLite, que só cobre ASCII —
+  descrições do seed têm acento ("Farmácia", "Salário").
+- O texto de busca tem `%`, `_` e `\` escapados antes de virar padrão
+  `LIKE` (com `ESCAPE '\'`), para que um texto de usuário contendo esses
+  caracteres seja tratado como literal, não como wildcard não
+  intencional — testado explicitamente (busca por `"%"` e `"_"`
+  sozinhos retorna vazio, não a tabela inteira).
+- Paginação: `pagina` (1-indexada) + `tamanho_pagina` (default 20, teto
+  100) — não `offset`/`limite`, porque exigiria o modelo calcular o
+  offset manualmente para avançar página. Essa é a primeira tool
+  paginada do projeto e estabelece a convenção para as demais.
+  `tamanho_pagina` acima do teto é rejeitado pelo próprio schema zod,
+  sem executar a busca.
+- O total de resultados (antes da paginação) vem de uma query `COUNT(*)`
+  separada com os mesmos filtros — a lista retornada por si só não diz
+  ao modelo se há mais páginas.
+- Sem índice em `descricao` nem FTS5: dataset fictício da Fase 1 é
+  pequeno o bastante para um table scan não ter impacto perceptível;
+  otimização fica para o `backlog.md` se o projeto crescer.
+
 ## O que foi cortado de escopo
 
 - Autenticação, deploy, API real, escrita de dados — ver README.

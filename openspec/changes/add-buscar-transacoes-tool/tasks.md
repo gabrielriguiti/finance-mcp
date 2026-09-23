@@ -9,4 +9,4 @@
 ## 2. Validação manual e documentação
 
 - [ ] 2.1 Validar `buscar_transacoes` no Claude Desktop (já configurado via `claude_desktop_config.json`): busca por texto, filtro de período, filtro de valor, combinação de filtros, e paginação (página além do total de páginas do seed).
-- [ ] 2.2 Atualizar `README.md` (tabela de tools: marcar `buscar_transacoes` como implementada) e `ARCHITECTURE.md` (racional da assinatura da tool, a convenção de paginação estabelecida, e a decisão de escapar caracteres especiais do `LIKE`) com o que foi entregue.
+- [x] 2.2 Atualizar `README.md` (tabela de tools: marcar `buscar_transacoes` como implementada) e `ARCHITECTURE.md` (racional da assinatura da tool, a convenção de paginação estabelecida, e a decisão de escapar caracteres especiais do `LIKE`) com o que foi entregue.

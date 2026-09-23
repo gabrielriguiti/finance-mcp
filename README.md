@@ -45,7 +45,7 @@ em `dist/index.js` (`npm run build && npm start`).
 | `get_saldo` | conta (opcional) | saldo atual por conta | ✅ implementada |
 | `gastos_por_categoria` | período, conta (opcional) | totais agregados | ✅ implementada |
 | `contas_a_pagar` | janela de dias | pendências com vencimento | ✅ implementada |
-| `buscar_transacoes` | texto, período, faixa de valor | lista paginada | planejada |
+| `buscar_transacoes` | texto, período, faixa de valor | lista paginada | ✅ implementada |
 | `resumo_fatura` | cartão, mês de referência | fechamento, vencimento, total | planejada |
 
 `get_saldo` aceita um parâmetro opcional `conta` (nome exato). Sem ele,
@@ -65,6 +65,14 @@ hoje e hoje + `janela_dias` dias, ambos inclusive, ordenadas por
 vencimento crescente. "Hoje" é a data real do sistema no momento da
 chamada — não um valor fixo. Pendências já vencidas (vencimento anterior
 a hoje) e transações já efetivadas não entram no resultado.
+
+`buscar_transacoes` aceita `texto` (substring na descrição,
+case-insensitive), `data_inicio`/`data_fim` e `valor_min`/`valor_max` —
+todos opcionais e combináveis (E lógico). Sem nenhum filtro, retorna
+todas as transações, mais recentes primeiro. Resultado paginado via
+`pagina` (1-indexada, default 1) e `tamanho_pagina` (default 20, máximo
+100); a resposta inclui o total de resultados antes da paginação, para
+o cliente saber se há mais páginas.
 
 ## O que ficou de fora (e por quê)
 
