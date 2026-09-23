@@ -16,4 +16,4 @@
 ## 4. Validação manual e documentação
 
 - [ ] 4.1 Validar `resumo_fatura` no Claude Desktop (já configurado via `claude_desktop_config.json`): fatura com transações no período, conta inexistente, conta corrente (não-cartão), e um `mes_referencia` em que o vencimento cai no mês seguinte ao fechamento.
-- [ ] 4.2 Atualizar `README.md` (tabela de tools: marcar `resumo_fatura` como implementada, e marcar a Fase 1 como as 5 tools completas) e `ARCHITECTURE.md` (racional da assinatura da tool, a mudança de schema, e o cálculo do ciclo de fatura) com o que foi entregue.
+- [x] 4.2 Atualizar `README.md` (tabela de tools: marcar `resumo_fatura` como implementada, e marcar a Fase 1 como as 5 tools completas) e `ARCHITECTURE.md` (racional da assinatura da tool, a mudança de schema, e o cálculo do ciclo de fatura) com o que foi entregue.

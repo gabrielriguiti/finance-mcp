@@ -1,8 +1,8 @@
 # finance-mcp
 
-> Status: em construção (Fase 1 do plano de portfólio). Este README será
-> completado ao longo das duas semanas da fase — ver seção "Como rodar" e
-> "Definição de done" no plano.
+> Status: as 5 tools da Fase 1 estão implementadas e validadas. Faltam só
+> o GIF de demonstração e o post de divulgação — ver "Definição de done"
+> no plano de portfólio.
 
 ## O que é
 
@@ -46,7 +46,7 @@ em `dist/index.js` (`npm run build && npm start`).
 | `gastos_por_categoria` | período, conta (opcional) | totais agregados | ✅ implementada |
 | `contas_a_pagar` | janela de dias | pendências com vencimento | ✅ implementada |
 | `buscar_transacoes` | texto, período, faixa de valor | lista paginada | ✅ implementada |
-| `resumo_fatura` | cartão, mês de referência | fechamento, vencimento, total | planejada |
+| `resumo_fatura` | cartão, mês de referência | fechamento, vencimento, total | ✅ implementada |
 
 `get_saldo` aceita um parâmetro opcional `conta` (nome exato). Sem ele,
 retorna o saldo de todas as contas cadastradas. O saldo é `saldo_inicial`
@@ -73,6 +73,15 @@ todas as transações, mais recentes primeiro. Resultado paginado via
 `pagina` (1-indexada, default 1) e `tamanho_pagina` (default 20, máximo
 100); a resposta inclui o total de resultados antes da paginação, para
 o cliente saber se há mais páginas.
+
+`resumo_fatura` recebe `cartao` (nome exato de uma conta do tipo cartão
+de crédito) e `mes_referencia` (formato `YYYY-MM`, o mês em que a
+fatura **fecha** — não necessariamente o mês das transações). Retorna
+`fechamento`, `vencimento` (pode cair no mês seguinte ao fechamento) e
+`total` — a soma dos gastos da conta entre o fechamento anterior
+(exclusive) e o fechamento do mês pedido (inclusive). Cada conta do tipo
+cartão tem `dia_fechamento`/`dia_vencimento` próprios, configurados no
+cadastro da conta.
 
 ## O que ficou de fora (e por quê)
 

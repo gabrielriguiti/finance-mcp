@@ -127,6 +127,41 @@ Servidor único, transporte stdio, sem estado além do arquivo SQLite local.
   pequeno o bastante para um table scan não ter impacto perceptível;
   otimização fica para o `backlog.md` se o projeto crescer.
 
+### resumo_fatura — racional da assinatura
+- Parâmetros obrigatórios `cartao` (nome exato de uma conta `tipo =
+  'cartao'`) e `mes_referencia` (`YYYY-MM`) — o mês em que a fatura
+  **fecha**, não o mês das transações; ambíguo o suficiente para valer
+  explicitar na descrição da tool.
+- Primeira e única mudança de schema da Fase 1: `contas` ganhou
+  `dia_fechamento`/`dia_vencimento` (nulos, só para `tipo = 'cartao'`).
+  Alternativa considerada: datas fixas arbitrárias sem relação com a
+  conta, ou tabela separada `ciclos_fatura` — a primeira seria menos
+  honesta que modelar o dado que falta, a segunda é normalização
+  desnecessária para uma relação 1:1 opcional.
+- Ciclo de fatura calculado por `calcularCicloFatura`, função pura sem
+  acesso ao banco (mesmo padrão de `formatarData`/cálculo de janela de
+  `contas_a_pagar`): o período de uma fatura vai do dia seguinte ao
+  fechamento do mês anterior até o fechamento de `mes_referencia`,
+  inclusive.
+- Vencimento cai no mesmo mês do fechamento se `dia_vencimento >=
+  dia_fechamento`, ou no mês seguinte caso contrário — cobre o padrão
+  comum de cartão (fecha perto do fim do mês, vence no início do
+  seguinte) sem exigir configuração adicional.
+- Dia de fechamento/vencimento além do último dia do mês (ex.: 31 em
+  fevereiro) é ajustado para o último dia real, via
+  `new Date(ano, mes, 0).getDate()`.
+- Validação da conta em três passos, cada um com mensagem própria: conta
+  existe → é do tipo `cartao` → tem `dia_fechamento`/`dia_vencimento`
+  configurados. Passos separados porque cada erro pede uma correção
+  diferente de quem chama a tool.
+- `total` é a soma dos gastos (`valor < 0`) no período, arredondada a 2
+  casas decimais — sem o arredondamento, a soma em ponto flutuante gera
+  ruído como `340.09999999999997` em vez de `340.1`, encontrado durante
+  a validação manual desta tool.
+- Não considera estorno/crédito no cartão (mesma convenção de soma
+  apenas de gastos usada em `gastos_por_categoria`); item potencial para
+  o `backlog.md`.
+
 ## O que foi cortado de escopo
 
 - Autenticação, deploy, API real, escrita de dados — ver README.
