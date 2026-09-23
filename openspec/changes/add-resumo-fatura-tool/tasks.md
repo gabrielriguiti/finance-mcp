@@ -5,12 +5,12 @@
 
 ## 2. Cálculo do ciclo de fatura
 
-- [ ] 2.1 Criar a função pura `calcularCicloFatura` (em `src/tools/resumo-fatura.ts` ou módulo próprio) que recebe `mes_referencia`, `dia_fechamento` e `dia_vencimento` e retorna `{ fechamento, inicioPeriodo, vencimento }` como strings `YYYY-MM-DD`. Verificar com chamadas diretas cobrindo: vencimento no mesmo mês do fechamento, vencimento no mês seguinte, e dia de fechamento/vencimento além do último dia do mês (ex.: 31 em fevereiro).
+- [x] 2.1 Criar a função pura `calcularCicloFatura` (em `src/tools/resumo-fatura.ts` ou módulo próprio) que recebe `mes_referencia`, `dia_fechamento` e `dia_vencimento` e retorna `{ fechamento, inicioPeriodo, vencimento }` como strings `YYYY-MM-DD`. Verificar com chamadas diretas cobrindo: vencimento no mesmo mês do fechamento, vencimento no mês seguinte, e dia de fechamento/vencimento além do último dia do mês (ex.: 31 em fevereiro).
 
 ## 3. Tool resumo_fatura
 
-- [ ] 3.1 Criar `src/tools/resumo-fatura.ts` com schema zod (`cartao` string obrigatório; `mes_referencia` string obrigatório no formato `YYYY-MM`) e a validação da conta em três passos (existe / é tipo cartao / tem ciclo configurado), cada uma retornando `isError: true` com mensagem própria. Verificar chamando o handler com: conta inexistente, conta existente mas não-cartão, e conta cartão sem fechamento/vencimento configurado (usar uma conta de teste sem esses campos).
-- [ ] 3.2 Implementar a consulta do total: `SUM(-valor)` das transações da conta com `valor < 0` e `data` entre `inicioPeriodo` e `fechamento` (usando `calcularCicloFatura`). Verificar com o seed: fatura do cartão para o `mes_referencia` em que as transações de exemplo caem dentro do período, e para um `mes_referencia` sem nenhuma transação no período (total = 0, sem erro).
+- [x] 3.1 Criar `src/tools/resumo-fatura.ts` com schema zod (`cartao` string obrigatório; `mes_referencia` string obrigatório no formato `YYYY-MM`) e a validação da conta em três passos (existe / é tipo cartao / tem ciclo configurado), cada uma retornando `isError: true` com mensagem própria. Verificar chamando o handler com: conta inexistente, conta existente mas não-cartão, e conta cartão sem fechamento/vencimento configurado (usar uma conta de teste sem esses campos).
+- [x] 3.2 Implementar a consulta do total: `SUM(-valor)` das transações da conta com `valor < 0` e `data` entre `inicioPeriodo` e `fechamento` (usando `calcularCicloFatura`). Verificar com o seed: fatura do cartão para o `mes_referencia` em que as transações de exemplo caem dentro do período, e para um `mes_referencia` sem nenhuma transação no período (total = 0, sem erro).
 - [ ] 3.3 Registrar `resumo_fatura` em `src/index.ts` (`ListToolsRequestSchema` e `CallToolRequestSchema`) com descrição explícita de que `mes_referencia` é o mês de fechamento e que `cartao` deve ser uma conta do tipo cartão. Verificar que `npm run dev` sobe sem erro e que a tool aparece na listagem MCP.
 
 ## 4. Validação manual e documentação
