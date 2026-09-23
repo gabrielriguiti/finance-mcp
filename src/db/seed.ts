@@ -19,12 +19,14 @@ db.exec("DROP TABLE IF EXISTS transacoes; DROP TABLE IF EXISTS categorias; DROP 
 db.exec(schema);
 
 const insertConta = db.prepare(
-  "INSERT INTO contas (nome, tipo, saldo_inicial) VALUES (?, ?, ?)"
+  `INSERT INTO contas (nome, tipo, saldo_inicial, dia_fechamento, dia_vencimento)
+   VALUES (?, ?, ?, ?, ?)`
 );
 
-const nubank = insertConta.run("Nubank", "corrente", 1500).lastInsertRowid as number;
-const itau = insertConta.run("Itaú", "corrente", 800).lastInsertRowid as number;
-const cartao = insertConta.run("Nubank Cartão", "cartao", 0).lastInsertRowid as number;
+const nubank = insertConta.run("Nubank", "corrente", 1500, null, null).lastInsertRowid as number;
+const itau = insertConta.run("Itaú", "corrente", 800, null, null).lastInsertRowid as number;
+// Fecha dia 25, vence dia 5 do mês seguinte — padrão comum de cartão.
+const cartao = insertConta.run("Nubank Cartão", "cartao", 0, 25, 5).lastInsertRowid as number;
 
 const insertCategoria = db.prepare("INSERT INTO categorias (nome) VALUES (?)");
 

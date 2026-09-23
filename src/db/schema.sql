@@ -4,7 +4,9 @@ CREATE TABLE IF NOT EXISTS contas (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   nome TEXT NOT NULL,
   tipo TEXT NOT NULL, -- 'corrente', 'cartao', etc.
-  saldo_inicial REAL NOT NULL DEFAULT 0
+  saldo_inicial REAL NOT NULL DEFAULT 0,
+  dia_fechamento INTEGER, -- dia do mês (1-31) em que a fatura fecha; só para tipo = 'cartao'
+  dia_vencimento INTEGER -- dia do mês (1-31) em que a fatura vence; só para tipo = 'cartao'
 );
 
 CREATE TABLE IF NOT EXISTS categorias (
