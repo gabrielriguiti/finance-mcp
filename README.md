@@ -1,8 +1,9 @@
 # finance-mcp
 
-> Status: as 5 tools da Fase 1 estão implementadas e validadas. Faltam só
-> o GIF de demonstração e o post de divulgação — ver "Definição de done"
-> no plano de portfólio.
+> Status: as 5 tools da Fase 1 estão implementadas, validadas e
+> documentadas — ver "Definição de done" no plano de portfólio.
+
+![Demonstração: pergunta "o que tenho pra pagar essa semana?" no Claude Desktop, respondida via a tool contas_a_pagar do finance-mcp](./demo.gif)
 
 ## O que é
 
