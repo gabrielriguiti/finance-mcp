@@ -1,9 +1,8 @@
 // finance-mcp — servidor MCP de finanças pessoais sobre SQLite.
 //
-// Estado: get_saldo, gastos_por_categoria e contas_a_pagar implementadas.
-// As outras 2 tools (buscar_transacoes, resumo_fatura) ainda não foram
-// implementadas — ver ARCHITECTURE.md e backlog.md para o que está fora
-// de escopo.
+// Estado: get_saldo, gastos_por_categoria, contas_a_pagar e
+// buscar_transacoes implementadas. Falta resumo_fatura — ver
+// ARCHITECTURE.md e backlog.md para o que está fora de escopo.
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -20,6 +19,10 @@ import {
   contasAPagarTool,
   handleContasAPagar,
 } from "./tools/contas-a-pagar.js";
+import {
+  buscarTransacoesTool,
+  handleBuscarTransacoes,
+} from "./tools/buscar-transacoes.js";
 
 const server = new Server(
   {
@@ -34,7 +37,7 @@ const server = new Server(
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [getSaldoTool, gastosPorCategoriaTool, contasAPagarTool],
+  tools: [getSaldoTool, gastosPorCategoriaTool, contasAPagarTool, buscarTransacoesTool],
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
@@ -45,6 +48,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return handleGastosPorCategoria(request.params.arguments);
     case "contas_a_pagar":
       return handleContasAPagar(request.params.arguments);
+    case "buscar_transacoes":
+      return handleBuscarTransacoes(request.params.arguments);
     default:
       throw new Error(`Tool desconhecida: ${request.params.name}`);
   }
@@ -54,7 +59,7 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error(
-    "finance-mcp rodando via stdio (tools: get_saldo, gastos_por_categoria, contas_a_pagar)"
+    "finance-mcp rodando via stdio (tools: get_saldo, gastos_por_categoria, contas_a_pagar, buscar_transacoes)"
   );
 }
 

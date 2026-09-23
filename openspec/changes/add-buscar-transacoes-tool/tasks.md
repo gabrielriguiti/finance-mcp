@@ -4,7 +4,7 @@
 - [x] 1.2 Implementar o filtro `texto`: `LOWER(descricao) LIKE LOWER(@pattern) ESCAPE '\'`, escapando `%`, `_` e `\` no valor informado antes de montar o padrão. Verificar com texto em minúscula, maiúscula, e um texto contendo `%` ou `_` literal (confirmando que não vira wildcard).
 - [x] 1.3 Implementar os filtros de período (`data_inicio`/`data_fim`, cada um independente do outro) e de faixa de valor (`valor_min`/`valor_max`, cada um independente do outro). Verificar cada filtro isoladamente e dois filtros combinados na mesma chamada (ex.: texto + período), confirmando E lógico.
 - [x] 1.4 Implementar a paginação: `LIMIT tamanho_pagina OFFSET (pagina - 1) * tamanho_pagina` na query principal, e uma query `COUNT(*)` separada com os mesmos filtros para o total. Verificar com um `tamanho_pagina` menor que o total de transações do seed, checando que a segunda página traz o restante e que o total bate com a contagem completa; verificar também uma `pagina` além do total (lista vazia, sem erro) e `tamanho_pagina` acima de 100 (erro claro, sem executar a busca).
-- [ ] 1.5 Registrar `buscar_transacoes` em `src/index.ts` (`ListToolsRequestSchema` e `CallToolRequestSchema`) com descrição explícita de que todos os filtros são opcionais e combináveis, e de como funciona a paginação. Verificar que `npm run dev` sobe sem erro e que a tool aparece na listagem MCP.
+- [x] 1.5 Registrar `buscar_transacoes` em `src/index.ts` (`ListToolsRequestSchema` e `CallToolRequestSchema`) com descrição explícita de que todos os filtros são opcionais e combináveis, e de como funciona a paginação. Verificar que `npm run dev` sobe sem erro e que a tool aparece na listagem MCP.
 
 ## 2. Validação manual e documentação
 
