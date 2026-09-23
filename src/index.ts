@@ -1,8 +1,9 @@
 // finance-mcp — servidor MCP de finanças pessoais sobre SQLite.
 //
-// Estado: get_saldo, gastos_por_categoria, contas_a_pagar e
-// buscar_transacoes implementadas. Falta resumo_fatura — ver
-// ARCHITECTURE.md e backlog.md para o que está fora de escopo.
+// Estado: as 5 tools do escopo da Fase 1 estão implementadas (get_saldo,
+// gastos_por_categoria, contas_a_pagar, buscar_transacoes,
+// resumo_fatura) — ver ARCHITECTURE.md e backlog.md para o que está
+// fora de escopo.
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
@@ -23,6 +24,7 @@ import {
   buscarTransacoesTool,
   handleBuscarTransacoes,
 } from "./tools/buscar-transacoes.js";
+import { resumoFaturaTool, handleResumoFatura } from "./tools/resumo-fatura.js";
 
 const server = new Server(
   {
@@ -37,7 +39,13 @@ const server = new Server(
 );
 
 server.setRequestHandler(ListToolsRequestSchema, async () => ({
-  tools: [getSaldoTool, gastosPorCategoriaTool, contasAPagarTool, buscarTransacoesTool],
+  tools: [
+    getSaldoTool,
+    gastosPorCategoriaTool,
+    contasAPagarTool,
+    buscarTransacoesTool,
+    resumoFaturaTool,
+  ],
 }));
 
 server.setRequestHandler(CallToolRequestSchema, async (request) => {
@@ -50,6 +58,8 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
       return handleContasAPagar(request.params.arguments);
     case "buscar_transacoes":
       return handleBuscarTransacoes(request.params.arguments);
+    case "resumo_fatura":
+      return handleResumoFatura(request.params.arguments);
     default:
       throw new Error(`Tool desconhecida: ${request.params.name}`);
   }
@@ -59,7 +69,7 @@ async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
   console.error(
-    "finance-mcp rodando via stdio (tools: get_saldo, gastos_por_categoria, contas_a_pagar, buscar_transacoes)"
+    "finance-mcp rodando via stdio (tools: get_saldo, gastos_por_categoria, contas_a_pagar, buscar_transacoes, resumo_fatura)"
   );
 }
 
