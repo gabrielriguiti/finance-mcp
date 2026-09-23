@@ -1,0 +1,12 @@
+## 1. Tool buscar_transacoes
+
+- [x] 1.1 Criar `src/tools/buscar-transacoes.ts` com schema zod (`texto` opcional string; `data_inicio`/`data_fim` opcionais no formato `YYYY-MM-DD`; `valor_min`/`valor_max` opcionais número; `pagina` opcional inteiro positivo default 1; `tamanho_pagina` opcional inteiro positivo default 20, máximo 100) e uma função que monta cláusulas WHERE condicionais a partir dos filtros informados. Verificar com uma chamada direta do handler sem nenhum filtro, cobrindo: retorna a primeira página, mais recentes primeiro, com total igual à contagem de transações do seed.
+- [x] 1.2 Implementar o filtro `texto`: `LOWER(descricao) LIKE LOWER(@pattern) ESCAPE '\'`, escapando `%`, `_` e `\` no valor informado antes de montar o padrão. Verificar com texto em minúscula, maiúscula, e um texto contendo `%` ou `_` literal (confirmando que não vira wildcard).
+- [x] 1.3 Implementar os filtros de período (`data_inicio`/`data_fim`, cada um independente do outro) e de faixa de valor (`valor_min`/`valor_max`, cada um independente do outro). Verificar cada filtro isoladamente e dois filtros combinados na mesma chamada (ex.: texto + período), confirmando E lógico.
+- [x] 1.4 Implementar a paginação: `LIMIT tamanho_pagina OFFSET (pagina - 1) * tamanho_pagina` na query principal, e uma query `COUNT(*)` separada com os mesmos filtros para o total. Verificar com um `tamanho_pagina` menor que o total de transações do seed, checando que a segunda página traz o restante e que o total bate com a contagem completa; verificar também uma `pagina` além do total (lista vazia, sem erro) e `tamanho_pagina` acima de 100 (erro claro, sem executar a busca).
+- [ ] 1.5 Registrar `buscar_transacoes` em `src/index.ts` (`ListToolsRequestSchema` e `CallToolRequestSchema`) com descrição explícita de que todos os filtros são opcionais e combináveis, e de como funciona a paginação. Verificar que `npm run dev` sobe sem erro e que a tool aparece na listagem MCP.
+
+## 2. Validação manual e documentação
+
+- [ ] 2.1 Validar `buscar_transacoes` no Claude Desktop (já configurado via `claude_desktop_config.json`): busca por texto, filtro de período, filtro de valor, combinação de filtros, e paginação (página além do total de páginas do seed).
+- [ ] 2.2 Atualizar `README.md` (tabela de tools: marcar `buscar_transacoes` como implementada) e `ARCHITECTURE.md` (racional da assinatura da tool, a convenção de paginação estabelecida, e a decisão de escapar caracteres especiais do `LIKE`) com o que foi entregue.
