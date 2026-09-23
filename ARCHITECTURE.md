@@ -78,6 +78,28 @@ Servidor único, transporte stdio, sem estado além do arquivo SQLite local.
   (`COALESCE` no SQL) em vez de descartadas — omitir gastos reais do total
   seria pior que um grupo "sem categoria" explícito.
 
+### contas_a_pagar — racional da assinatura
+- Parâmetro único obrigatório `janela_dias` (inteiro positivo). Retorna
+  as transações pendentes (`pendente = 1`) com vencimento entre hoje e
+  hoje + `janela_dias` dias, ambos inclusive.
+- O schema não tem coluna de vencimento separada: para uma transação
+  pendente, `transacoes.data` já é usada como data de vencimento (ver
+  seed). A tool reaproveita esse campo, sem alterar o schema.
+- "Hoje" é a data real do sistema (`new Date()`) no momento da chamada,
+  não um valor fixo ou fictício. Alternativa considerada: fixar uma data
+  de referência no seed — descartada porque tornaria o comportamento da
+  tool dependente de um detalhe de implementação que ninguém fora do
+  seed conseguiria adivinhar.
+- Pendências já vencidas (vencimento anterior a hoje) ficam fora do
+  resultado — a tool responde "o que vence em breve", não "o que está
+  em atraso"; item potencial para o `backlog.md` se fizer falta depois.
+- Comparação de datas feita como string `YYYY-MM-DD` (mesma convenção de
+  `gastos_por_categoria`), com `hoje` e o limite da janela calculados em
+  JavaScript e formatados usando componentes de data local (não
+  `toISOString()`) para evitar deslocamento de dia por fuso horário.
+- Resultado ordenado por vencimento crescente e inclui o nome da conta
+  (`JOIN contas`), retorno compacto: `{ pendencias: [...] }`.
+
 ## O que foi cortado de escopo
 
 - Autenticação, deploy, API real, escrita de dados — ver README.

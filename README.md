@@ -44,7 +44,7 @@ em `dist/index.js` (`npm run build && npm start`).
 |---|---|---|---|
 | `get_saldo` | conta (opcional) | saldo atual por conta | ✅ implementada |
 | `gastos_por_categoria` | período, conta (opcional) | totais agregados | ✅ implementada |
-| `contas_a_pagar` | janela de dias | pendências com vencimento | planejada |
+| `contas_a_pagar` | janela de dias | pendências com vencimento | ✅ implementada |
 | `buscar_transacoes` | texto, período, faixa de valor | lista paginada | planejada |
 | `resumo_fatura` | cartão, mês de referência | fechamento, vencimento, total | planejada |
 
@@ -58,6 +58,13 @@ mais a soma das transações não pendentes da conta — transações pendentes
 gasto em cada categoria no período — só gastos efetivados (valor
 negativo, não pendentes) entram na soma; receitas e pendências ficam de
 fora. Gastos sem categoria aparecem agrupados como "Sem categoria".
+
+`contas_a_pagar` recebe `janela_dias` (inteiro positivo, obrigatório) e
+retorna as transações pendentes (`pendente = 1`) com vencimento entre
+hoje e hoje + `janela_dias` dias, ambos inclusive, ordenadas por
+vencimento crescente. "Hoje" é a data real do sistema no momento da
+chamada — não um valor fixo. Pendências já vencidas (vencimento anterior
+a hoje) e transações já efetivadas não entram no resultado.
 
 ## O que ficou de fora (e por quê)
 
